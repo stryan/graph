@@ -170,10 +170,6 @@ func (d *directed[K, T]) UpdateEdge(source, target K, options ...func(properties
 }
 
 func (d *directed[K, T]) RemoveEdge(source, target K) error {
-	if _, err := d.Edge(source, target); err != nil {
-		return err
-	}
-
 	if err := d.store.RemoveEdge(source, target); err != nil {
 		return fmt.Errorf("failed to remove edge from %v to %v: %w", source, target, err)
 	}

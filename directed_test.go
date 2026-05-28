@@ -886,7 +886,6 @@ func TestDirected_RemoveEdge(t *testing.T) {
 			removeEdges: []Edge[int]{
 				{Source: 2, Target: 3},
 			},
-			expectedError: ErrEdgeNotFound,
 		},
 	}
 
@@ -1252,9 +1251,11 @@ func TestDirected_edgesAreEqual(t *testing.T) {
 
 func TestDirected_addEdge(t *testing.T) {
 	tests := map[string]struct {
-		edges []Edge[int]
+		vertices []int
+		edges    []Edge[int]
 	}{
 		"add 3 edges": {
+			vertices: []int{1, 2, 3},
 			edges: []Edge[int]{
 				{Source: 1, Target: 2, Properties: EdgeProperties{Weight: 1}},
 				{Source: 2, Target: 3, Properties: EdgeProperties{Weight: 2}},
@@ -1265,6 +1266,12 @@ func TestDirected_addEdge(t *testing.T) {
 
 	for name, test := range tests {
 		graph := newDirected(IntHash, &Traits{}, NewMemoryStore[int, int]())
+		for _, v := range test.vertices {
+			err := graph.AddVertex(v)
+			if err != nil {
+				t.Fatalf("%s: failed to add vertex: %s", name, err.Error())
+			}
+		}
 
 		for _, edge := range test.edges {
 			sourceHash := graph.hash(edge.Source)
