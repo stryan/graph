@@ -52,6 +52,10 @@ func (u *undirected[K, T]) VertexWithProperties(hash K) (T, VertexProperties, er
 	return vertex, prop, nil
 }
 
+func (u *undirected[K, T]) ListVertices() ([]K, error) {
+	return u.store.ListVertices()
+}
+
 func (u *undirected[K, T]) RemoveVertex(hash K) error {
 	return u.store.RemoveVertex(hash)
 }

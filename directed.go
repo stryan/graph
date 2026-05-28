@@ -71,6 +71,10 @@ func (d *directed[K, T]) VertexWithProperties(hash K) (T, VertexProperties, erro
 	return vertex, properties, nil
 }
 
+func (d *directed[K, T]) ListVertices() ([]K, error) {
+	return d.store.ListVertices()
+}
+
 func (d *directed[K, T]) RemoveVertex(hash K) error {
 	return d.store.RemoveVertex(hash)
 }
