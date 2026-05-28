@@ -1,20 +1,33 @@
-run:
-  timeout: 5m
-
+version: "2"
 linters:
-  disable-all: true
+  default: none
   enable:
-    - govet
     - errcheck
-    - gosimple
+    - govet
     - ineffassign
     - staticcheck
-    - typecheck
     - unused
-
-linters-settings:
-  govet:
-    enable-all: true
-    disable:
-      - stdmethods
-      - fieldalignment
+  settings:
+    govet:
+      disable:
+        - stdmethods
+        - fieldalignment
+      enable-all: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
