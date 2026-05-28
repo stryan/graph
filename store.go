@@ -45,8 +45,8 @@ type Store[K comparable, T any] interface {
 	// RemoveEdge should remove the edge between the vertices with the given source and target
 	// hashes.
 	//
-	// If either vertex doesn't exist, it is up to you whether ErrVertexNotFound or no error should
-	// be returned. If the edge doesn't exist, it is up to you whether ErrEdgeNotFound or no error
+	// If either vertex doesn't exist, it is up to the store whether ErrVertexNotFound or no error should
+	// be returned. If the edge doesn't exist, it is up to the store whether ErrEdgeNotFound or no error
 	// should be returned.
 	RemoveEdge(sourceHash, targetHash K) error
 
@@ -68,7 +68,7 @@ type Store[K comparable, T any] interface {
 	EdgeCount() (int, error)
 }
 
-// MemoryStore is an im-memory implementation of the Store interface.
+// MemoryStore is an in-memory implementation of the Store interface.
 // Should be thread-safe
 type MemoryStore[K comparable, T any] struct {
 	lock             sync.RWMutex
@@ -169,6 +169,16 @@ func (s *MemoryStore[K, T]) RemoveVertex(k K) error {
 func (s *MemoryStore[K, T]) AddEdge(sourceHash, targetHash K, edge Edge[K]) error {
 	s.lock.Lock()
 	defer s.lock.Unlock()
+
+	_, ok := s.vertices[sourceHash]
+	if !ok {
+		return ErrVertexNotFound
+	}
+
+	_, ok = s.vertices[targetHash]
+	if !ok {
+		return ErrVertexNotFound
+	}
 
 	if _, ok := s.outEdges[sourceHash]; !ok {
 		s.outEdges[sourceHash] = make(map[K]Edge[K])

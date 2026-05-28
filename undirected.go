@@ -61,15 +61,6 @@ func (u *undirected[K, T]) RemoveVertex(hash K) error {
 }
 
 func (u *undirected[K, T]) AddEdge(sourceHash, targetHash K, options ...func(*EdgeProperties)) error {
-	if _, _, err := u.store.Vertex(sourceHash); err != nil {
-		return fmt.Errorf("could not find source vertex with hash %v: %w", sourceHash, err)
-	}
-
-	if _, _, err := u.store.Vertex(targetHash); err != nil {
-		return fmt.Errorf("could not find target vertex with hash %v: %w", targetHash, err)
-	}
-
-	//nolint:govet // False positive.
 	if _, err := u.Edge(sourceHash, targetHash); !errors.Is(err, ErrEdgeNotFound) {
 		return ErrEdgeAlreadyExists
 	}
@@ -242,10 +233,6 @@ func (u *undirected[K, T]) UpdateEdge(source, target K, options ...func(properti
 }
 
 func (u *undirected[K, T]) RemoveEdge(source, target K) error {
-	if _, err := u.Edge(source, target); err != nil {
-		return err
-	}
-
 	if err := u.store.RemoveEdge(source, target); err != nil {
 		return fmt.Errorf("failed to remove edge from %v to %v: %w", source, target, err)
 	}
