@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/dominikbraun/graph"
+	"github.com/stryan/graph"
 )
 
 func TestGenerateDOT(t *testing.T) {
@@ -394,7 +394,6 @@ func TestGraphAttribute(t *testing.T) {
 			t.Errorf("%s: graph attribute expectation doesn't match: expected %v, got %v", name, test.expected.Attributes, d.Attributes)
 		}
 	}
-
 }
 
 func slicesAreEqual[T any](a, b []T, equals func(a, b T) bool) bool {
