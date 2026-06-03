@@ -5,7 +5,8 @@
 A library for creating generic graph data structures and modifying, analyzing,
 and visualizing them.
 
-**Are you using graph? [Check out the graph user survey.](https://forms.gle/MLKUZKMeCRxTfj4v9)**
+Forked from https://github.com/dominikbraun/graph
+
 
 # Features
 
@@ -26,7 +27,7 @@ and visualizing them.
 # Getting started
 
 ```
-go get github.com/dominikbraun/graph
+go get github.com/stryan/graph
 ```
 
 # Quick examples
@@ -334,7 +335,7 @@ field.
 
 ```go
 edge, _ := g.Edge(1, 2)
-color := edge.Properties.Attributes["color"] 
+color := edge.Properties.Attributes["color"]
 ```
 
 ## Storing edge data
@@ -350,7 +351,7 @@ The stored data can be retrieved by getting the edge and accessing the `Properti
 
 ```go
 edge, _ := g.Edge(1, 2)
-myData := edge.Properties.Data 
+myData := edge.Properties.Data
 ```
 
 ### Updating edge data
